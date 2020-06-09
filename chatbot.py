@@ -33,7 +33,7 @@ def webhook_handler():
         dispatcher.process_update(update)
     return 'ok'
     
-
+#開始要先輸入id，如果已經輸入過就不用再輸入
 def start(bot, update):
     if update.message.chat.id not in userdata().df.keys():
         bot.send_message(update.message.chat.id, '{} 您好，請輸入id：'.format(update.message.from_user.first_name)+'\n'+'(假設ID為 1111，請輸入：id1111)')
@@ -42,7 +42,7 @@ def start(bot, update):
     
 def info(bot, update):
     global num
-    num = update.message.text
+    num = update.message.text #收到的訊息
     data = intraday.meta(apiToken=api_token , symbolId=num ,output='raw')
     
     '''對話框按鈕'''
