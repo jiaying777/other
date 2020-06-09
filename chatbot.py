@@ -13,8 +13,7 @@ access_token = config['TELEGRAM']['ACCESS_TOKEN']
 webhook_url = config['TELEGRAM']['WEBHOOK_URL']
 api_token = config['TELEGRAM']['api_token']
 
-requests.post('https://api.telegram.org/bot'+'1072022422:AAFwoUUbuTNN3LeHI2tgLvOCPuxgpJHTFTk'
-+'/deleteWebhook').text
+requests.post('https://api.telegram.org/bot'+access_token+'/deleteWebhook').text
 requests.post('https://api.telegram.org/bot'+access_token+'/setWebhook?url='+webhook_url+'/hook').text
 
 
