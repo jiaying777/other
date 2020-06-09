@@ -66,7 +66,6 @@ def info(bot, update):
         df1 = intraday.chart(apiToken=api_token , symbolId=num)
         df1 = df1.iloc[-1]
         text = ('●'+data['nameZhTw']+num+'\t\t\t'+'股價：'+str(df1['close']))
-#         update.message.reply_text(text,reply_markup = reply_markup)
         bot.send_message(update.message.chat.id, text+'\n\n'+'{} 您還可以查詢：'.format(update.message.from_user.first_name) 
                      , reply_to_message_id = update.message.message_id,reply_markup = reply_markup)
     
