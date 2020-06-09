@@ -33,7 +33,7 @@ def webhook_handler():
         dispatcher.process_update(update)
     return 'ok'
     
-#開始要先輸入id，如果已經輸入過就不用再輸入
+
 def start(bot, update):
     if update.message.chat.id not in userdata().df.keys():
         bot.send_message(update.message.chat.id, '{} 您好，請輸入id：'.format(update.message.from_user.first_name)+'\n'+'(假設ID為 1111，請輸入：id1111)')
@@ -42,7 +42,7 @@ def start(bot, update):
     
 def info(bot, update):
     global num
-    num = update.message.text #收到的訊息
+    num = update.message.text
     data = intraday.meta(apiToken=api_token , symbolId=num ,output='raw')
     
     '''對話框按鈕'''
@@ -65,7 +65,8 @@ def info(bot, update):
     else:    
         df1 = intraday.chart(apiToken=api_token , symbolId=num)
         df1 = df1.iloc[-1]
-        text = ('●'+data['nameZhTw']+num+'\t\t\t'+'股價：'+str(df1['close']))
+        text = ('•'+data['nameZhTw']+'('+num+')\t\t'+'股價：'+str(df1['close'])+'\t\t'+'漲跌：'+str(data['priceReference']-df1['close'])+'\t('+
+                str(round(((data['priceReference']-df1['close'])/data['priceReference'])*100,2))+'%)')
         bot.send_message(update.message.chat.id, text+'\n\n'+'{} 您還可以查詢：'.format(update.message.from_user.first_name) 
                      , reply_to_message_id = update.message.message_id,reply_markup = reply_markup)
     
@@ -90,7 +91,7 @@ def getClickButtonData(bot, update):
     if update.callback_query.data == 'trade':
         df2 = intraday.quote(apiToken=api_token,symbolId=num,output='raw')
         df3 = df2['trade']
-        text = ('● '+data['nameZhTw']+'('+num+')'+'最新一筆交易：'+'\n'+'成交價：'+str(df3['price'])+'\n'+'成交張數：'+str(df3['unit'])+'\n'+'成交量：'+str(df3['volume'])+'\n'+
+        text = ('• '+data['nameZhTw']+'('+num+')'+'最新一筆交易：'+'\n'+'成交價：'+str(df3['price'])+'\n'+'成交張數：'+str(df3['unit'])+'\n'+'成交量：'+str(df3['volume'])+'\n'+
                                                                                                      '成交序號：'+str(df3['serial']))
         update.callback_query.message.reply_text(text)
         
